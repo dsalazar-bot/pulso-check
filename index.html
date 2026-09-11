@@ -1,0 +1,252 @@
+<meta charset="utf-8" />
+<title>Pulso Check</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#4e8f34" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper: #faf9f5;
+    --surface: #ffffff;
+    --surface-raised: #ffffff;
+    --ink: #1b2016;
+    --muted: #6b7565;
+    --faint: #9aa192;
+    --line: #e5e2d8;
+    --accent: #4e8f34;
+    --accent-ink: #ffffff;
+    --accent-dim: #e7efdf;
+    --accent-dim-ink: #3a6b27;
+    --shadow: 0 1px 2px rgba(27, 32, 22, 0.04), 0 8px 20px -12px rgba(27, 32, 22, 0.18);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #14170f;
+      --surface: #1c2016;
+      --surface-raised: #21261a;
+      --ink: #edefe6;
+      --muted: #9ea895;
+      --faint: #666f5c;
+      --line: #2f3626;
+      --accent: #6bb04a;
+      --accent-ink: #10190a;
+      --accent-dim: #24301c;
+      --accent-dim-ink: #9ed17f;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #14170f;
+    --surface: #1c2016;
+    --surface-raised: #21261a;
+    --ink: #edefe6;
+    --muted: #9ea895;
+    --faint: #666f5c;
+    --line: #2f3626;
+    --accent: #6bb04a;
+    --accent-ink: #10190a;
+    --accent-dim: #24301c;
+    --accent-dim-ink: #9ed17f;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header.app-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: max(18px, env(safe-area-inset-top)) 20px 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  header.app-bar img {
+    width: 34px;
+    height: 34px;
+    display: block;
+  }
+
+  header.app-bar .wordmark {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+  }
+
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 28px 20px calc(40px + env(safe-area-inset-bottom));
+  }
+
+  .section-label {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 12px 2px;
+  }
+
+  .form-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  a.form-card,
+  .form-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 16px;
+    background: var(--surface-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  a.form-card:active {
+    transform: scale(0.985);
+  }
+
+  .form-card .icon {
+    flex: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--accent-dim);
+    color: var(--accent-dim-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-card .icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .form-card .body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .form-card .title {
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .form-card .meta {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .form-card .chevron {
+    flex: none;
+    color: var(--faint);
+  }
+
+  .form-card.placeholder {
+    box-shadow: none;
+    border-style: dashed;
+    opacity: 0.72;
+  }
+
+  .form-card.placeholder .icon {
+    background: transparent;
+    border: 1px dashed var(--line);
+    color: var(--faint);
+  }
+
+  .form-card.placeholder .title {
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  footer {
+    text-align: center;
+    padding: 18px 20px calc(20px + env(safe-area-inset-bottom));
+    font-size: 0.75rem;
+    color: var(--faint);
+  }
+</style>
+
+<header class="app-bar">
+  <img src="icons/icon-192.png" alt="" />
+  <span class="wordmark">Pulso Check</span>
+</header>
+
+<main>
+  <p class="section-label">Formularios</p>
+  <div class="form-list">
+    <a
+      class="form-card"
+      href="https://script.google.com/a/macros/norte-verde.cl/s/AKfycbw36iH25lx8JHOlaxCncWIf8EH3tRBAMMky46k-76Ome76AsSv2MNQM8K-6tGoK-uBanQ/exec"
+      target="_blank"
+      rel="noopener"
+    >
+      <span class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12h4l2 6 4-14 2 8h6" />
+        </svg>
+      </span>
+      <span class="body">
+        <span class="title">Informe de Visita Trimestral GB</span>
+        <span class="meta">Formulario de terreno</span>
+      </span>
+      <span class="chevron">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6-6 6" />
+        </svg>
+      </span>
+    </a>
+
+    <div class="form-card placeholder">
+      <span class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+      </span>
+      <span class="body">
+        <span class="title">Más formularios próximamente</span>
+      </span>
+    </div>
+  </div>
+</main>
+
+<footer>by Pulso NV</footer>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
+  }
+</script>
