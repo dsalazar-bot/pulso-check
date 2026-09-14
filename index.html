@@ -199,8 +199,8 @@
 
   .install-bar {
     display: flex;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    gap: 8px;
     margin: 0 auto;
     max-width: 560px;
     padding: 12px 16px;
@@ -209,6 +209,25 @@
   }
 
   .install-bar[hidden] {
+    display: none;
+  }
+
+  .install-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .install-hint {
+    margin: 0;
+    padding-left: 42px;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: var(--accent-dim-ink);
+    opacity: 0.85;
+  }
+
+  .install-hint[hidden] {
     display: none;
   }
 
@@ -261,16 +280,21 @@
 </style>
 
 <div class="install-bar" id="install-bar" hidden>
-  <span class="icon">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 3v13m0 0-4-4m4 4 4-4M5 21h14" />
-    </svg>
-  </span>
-  <span class="text">
-    <strong>Instalar Pulso Check</strong>
-    Agregá el ícono a tu pantalla de inicio
-  </span>
-  <button id="install-btn" type="button">Instalar</button>
+  <div class="install-bar-row">
+    <span class="icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v13m0 0-4-4m4 4 4-4M5 21h14" />
+      </svg>
+    </span>
+    <span class="text">
+      <strong>Instalar Pulso Check</strong>
+      Agregá el ícono a tu pantalla de inicio
+    </span>
+    <button id="install-btn" type="button">Instalar</button>
+  </div>
+  <p class="install-hint" id="install-hint" hidden>
+    Abrí el menú ⋮ de Chrome (arriba a la derecha) y tocá "Instalar app" o "Agregar a pantalla de inicio".
+  </p>
 </div>
 
 <header class="app-bar">
@@ -350,24 +374,32 @@
   let deferredInstallPrompt = null;
   const installBar = document.getElementById("install-bar");
   const installBtn = document.getElementById("install-btn");
+  const installHint = document.getElementById("install-hint");
   const isStandalone =
     window.matchMedia("(display-mode: standalone)").matches ||
     window.navigator.standalone === true;
+  const isAndroidChrome = /Android/.test(navigator.userAgent) && /Chrome/.test(navigator.userAgent);
 
-  if (!isStandalone) {
-    window.addEventListener("beforeinstallprompt", (event) => {
-      event.preventDefault();
-      deferredInstallPrompt = event;
-      installBar.hidden = false;
-    });
+  if (!isStandalone && isAndroidChrome) {
+    installBar.hidden = false;
   }
 
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    if (!isStandalone) installBar.hidden = false;
+  });
+
   installBtn.addEventListener("click", async () => {
-    if (!deferredInstallPrompt) return;
-    installBar.hidden = true;
-    deferredInstallPrompt.prompt();
-    await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt = null;
+    if (deferredInstallPrompt) {
+      installHint.hidden = true;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      installBar.hidden = true;
+    } else {
+      installHint.hidden = false;
+    }
   });
 
   window.addEventListener("appinstalled", () => {
