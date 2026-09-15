@@ -1,4 +1,4 @@
-const CACHE = "pulso-check-v1";
+const CACHE = "pulso-check-v2";
 const ASSETS = [
   "./",
   "./index.html",
