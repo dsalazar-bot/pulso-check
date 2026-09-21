@@ -1,4 +1,4 @@
-const CACHE = "pulso-check-v5";
+const CACHE = "pulso-check-v6";
 const ASSETS = [
   "./",
   "./index.html",
@@ -6,6 +6,7 @@ const ASSETS = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/apple-touch-icon.png",
+  "./icons/watermark.png",
 ];
 
 self.addEventListener("install", (event) => {
