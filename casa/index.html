@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Casa</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#09392B" />
+<link rel="icon" href="icons/favicon-32.png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Casa" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --dark: #09392B;
+    --dark-2: #051F17;
+    --light: #FDF9F0;
+    --accent: #A8F16C;
+    --muted: #9ec9b5;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    padding: 24px;
+    background: linear-gradient(180deg, #12513D 0%, #0C4232 45%, #051F17 100%);
+    color: var(--light);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+  }
+  img.logo {
+    width: 132px;
+    height: 132px;
+    border-radius: 34px;
+    box-shadow: 0 12px 34px -10px rgba(0, 0, 0, 0.55);
+  }
+  h1 {
+    margin: 0;
+    font-size: 1.7rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  p.subtitle {
+    margin: -12px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  a.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 14px 28px;
+    border-radius: 28px;
+    background: var(--accent);
+    color: var(--dark);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.5);
+  }
+  p.hint {
+    margin-top: 4px;
+    color: #7FAE99;
+    font-size: 0.78rem;
+  }
+  .spinner {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 3px solid rgba(253, 249, 240, 0.25);
+    border-top-color: var(--light);
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+  <img class="logo" src="icons/icon-512.png" alt="Casa" />
+  <h1>Casa</h1>
+  <p class="subtitle">Abriendo tu formulario&hellip;</p>
+  <div class="spinner" id="spinner"></div>
+  <a class="btn" id="openLink" href="#">Abrir Casa</a>
+  <p class="hint">Se abre en una pestaña segura</p>
+
+<script>
+  var TARGET_URL = "https://script.google.com/macros/s/AKfycbza1CoFVROOTkQknWEcxHCKXZHqG1axDkbxl2i3gnPMxvAkodY9XnRgw7wo3o7LWI1M5A/exec";
+  document.getElementById("openLink").href = TARGET_URL;
+  document.getElementById("openLink").addEventListener("click", function (e) {
+    e.preventDefault();
+    window.location.replace(TARGET_URL);
+  });
+  setTimeout(function () {
+    window.location.replace(TARGET_URL);
+  }, 350);
+</script>
+</body>
+</html>
