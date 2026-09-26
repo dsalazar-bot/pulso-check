@@ -11,109 +11,141 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="Casa" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
 <style>
   :root {
     --dark: #09392B;
-    --dark-2: #051F17;
+    --paper-2: #051F17;
+    --surface: #0E4433;
+    --line: #1B5A45;
     --light: #FDF9F0;
     --accent: #A8F16C;
     --muted: #9ec9b5;
+    --faint: #6f9484;
   }
   * { box-sizing: border-box; }
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
+  html, body { height: 100%; margin: 0; }
   body {
     min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 22px;
-    padding: 24px;
     background: linear-gradient(180deg, #12513D 0%, #0C4232 45%, #051F17 100%);
     color: var(--light);
     font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
-    text-align: center;
     -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
   }
-  img.logo {
-    width: 132px;
-    height: 132px;
-    border-radius: 34px;
-    box-shadow: 0 12px 34px -10px rgba(0, 0, 0, 0.55);
-  }
-  h1 {
-    margin: 0;
-    font-size: 1.7rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-  }
-  p.subtitle {
-    margin: -12px 0 0;
-    color: var(--muted);
-    font-size: 0.95rem;
-  }
-  a.btn {
-    display: inline-flex;
+  header {
+    display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-    padding: 14px 28px;
-    border-radius: 28px;
+    gap: 12px;
+    padding: max(24px, env(safe-area-inset-top)) 24px 12px;
+  }
+  header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: block;
+  }
+  header .wordmark {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+  }
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 20px 20px calc(40px + env(safe-area-inset-bottom));
+  }
+  .section-label {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 18px 2px 10px;
+  }
+  .card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  a.card, div.card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--light);
+  }
+  a.card:active { background: #115a44; }
+  .card .icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
     background: var(--accent);
     color: var(--dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .card.disabled .icon {
+    background: #2a3d35;
+    color: var(--faint);
+  }
+  .card .body { flex: 1; min-width: 0; }
+  .card .title { font-weight: 600; font-size: 1rem; }
+  .card .subtitle { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+  .card.disabled { opacity: 0.55; }
+  .card.disabled .subtitle { color: var(--faint); }
+  .card .chev { color: var(--muted); font-size: 1.1rem; flex-shrink: 0; }
+  .badge {
+    font-size: 0.65rem;
     font-weight: 600;
-    font-size: 1rem;
-    text-decoration: none;
-    box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: #2a3d35;
+    color: var(--faint);
+    padding: 3px 8px;
+    border-radius: 999px;
+    flex-shrink: 0;
   }
-  p.hint {
-    margin-top: 4px;
-    color: #7FAE99;
-    font-size: 0.78rem;
-  }
-  .spinner {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 3px solid rgba(253, 249, 240, 0.25);
-    border-top-color: var(--light);
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
-  <img class="logo" src="icons/icon-512.png" alt="Casa" />
-  <h1>Casa</h1>
-  <p class="subtitle" id="subtitle">Tu acceso directo a Gastos Casa</p>
-  <div class="spinner" id="spinner" style="display:none"></div>
-  <a class="btn" id="openLink" href="#">Abrir Casa</a>
-  <p class="hint" id="hint">Toca el bot&oacute;n para abrir. Para instalar el &iacute;cono: Compartir &rarr; Añadir a pantalla de inicio</p>
+  <header>
+    <img src="icons/icon-192.png" alt="Casa" />
+    <span class="wordmark">Casa</span>
+  </header>
 
-<script>
-  var TARGET_URL = "https://script.google.com/macros/s/AKfycbza1CoFVROOTkQknWEcxHCKXZHqG1axDkbxl2i3gnPMxvAkodY9XnRgw7wo3o7LWI1M5A/exec";
-  document.getElementById("openLink").href = TARGET_URL;
-  document.getElementById("openLink").addEventListener("click", function (e) {
-    e.preventDefault();
-    window.location.replace(TARGET_URL);
-  });
+  <main>
+    <p class="section-label">Gastos</p>
+    <div class="card-list">
+      <a class="card" href="https://script.google.com/macros/s/AKfycbza1CoFVROOTkQknWEcxHCKXZHqG1axDkbxl2i3gnPMxvAkodY9XnRgw7wo3o7LWI1M5A/exec">
+        <div class="icon">＋</div>
+        <div class="body">
+          <div class="title">Registrar gasto</div>
+          <div class="subtitle">Agregar un nuevo gasto de la familia</div>
+        </div>
+        <div class="chev">&rsaquo;</div>
+      </a>
 
-  var isStandalone =
-    window.navigator.standalone === true ||
-    window.matchMedia("(display-mode: standalone)").matches;
-
-  if (isStandalone) {
-    document.getElementById("subtitle").textContent = "Abriendo tu formulario…";
-    document.getElementById("spinner").style.display = "block";
-    document.getElementById("hint").style.display = "none";
-    setTimeout(function () {
-      window.location.replace(TARGET_URL);
-    }, 350);
-  }
-</script>
+      <div class="card disabled">
+        <div class="icon">📊</div>
+        <div class="body">
+          <div class="title">Ver estado de gastos</div>
+          <div class="subtitle">Resumen y balance del mes</div>
+        </div>
+        <div class="badge">Pronto</div>
+      </div>
+    </div>
+  </main>
 </body>
 </html>
