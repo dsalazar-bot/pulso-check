@@ -89,10 +89,10 @@
 <body>
   <img class="logo" src="icons/icon-512.png" alt="Casa" />
   <h1>Casa</h1>
-  <p class="subtitle">Abriendo tu formulario&hellip;</p>
-  <div class="spinner" id="spinner"></div>
+  <p class="subtitle" id="subtitle">Tu acceso directo a Gastos Casa</p>
+  <div class="spinner" id="spinner" style="display:none"></div>
   <a class="btn" id="openLink" href="#">Abrir Casa</a>
-  <p class="hint">Se abre en una pestaña segura</p>
+  <p class="hint" id="hint">Toca el bot&oacute;n para abrir. Para instalar el &iacute;cono: Compartir &rarr; Añadir a pantalla de inicio</p>
 
 <script>
   var TARGET_URL = "https://script.google.com/macros/s/AKfycbza1CoFVROOTkQknWEcxHCKXZHqG1axDkbxl2i3gnPMxvAkodY9XnRgw7wo3o7LWI1M5A/exec";
@@ -101,9 +101,19 @@
     e.preventDefault();
     window.location.replace(TARGET_URL);
   });
-  setTimeout(function () {
-    window.location.replace(TARGET_URL);
-  }, 350);
+
+  var isStandalone =
+    window.navigator.standalone === true ||
+    window.matchMedia("(display-mode: standalone)").matches;
+
+  if (isStandalone) {
+    document.getElementById("subtitle").textContent = "Abriendo tu formulario…";
+    document.getElementById("spinner").style.display = "block";
+    document.getElementById("hint").style.display = "none";
+    setTimeout(function () {
+      window.location.replace(TARGET_URL);
+    }, 350);
+  }
 </script>
 </body>
 </html>
